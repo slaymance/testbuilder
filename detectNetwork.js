@@ -43,5 +43,35 @@ var detectNetwork = function(cardNumber) {
   	}
   }
 
+  // Discover
+  if(cardArray[0] === 6) {
+  	if(cardArray.length === 16 || cardArray.length === 19) {
+  		if(cardArray[1] === 0 && cardArray[2] === 1 && cardArray[3] === 1) {
+  			return 'Discover';
+  		} else if(cardArray[1] === 4) {
+  			if(cardArray[2] >= 4 && cardArray[2] <= 9) {
+  				return 'Discover';
+  			}
+  		} else if(cardArray[1] === 5) {
+  			return 'Discover';
+  		}
+  	}
+  }
+
+  // Maestro
+  if(cardArray.length >= 12 && cardArray.length <= 19) {
+  	if(cardArray[0] === 5 && cardArray[1] === 0) {
+  		if(cardArray[2] === 1 && cardArray[3] === 8) {
+  			return 'Maestro';
+  		} else if(cardArray[2] === 2 && cardArray[3] === 0) {
+  			return 'Maestro';
+  		} else if(cardArray[2] === 3 && cardArray[3] === 8) {
+  			return 'Maestro';
+  		}
+  	} else if(cardArray[0] === 6 && cardArray[1] === 3 && cardArray[2] === 0 && cardArray[3] === 4) {
+  		return 'Maestro';
+  	}
+  }
+
   return 'Not a valid credit card number';
 };
