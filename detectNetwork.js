@@ -20,13 +20,28 @@ var detectNetwork = function(cardNumber) {
   	cardArray.push(parseInt(splitArray[i]));
   }
 
+  // Diner's Club and American Express
   if(cardArray[0] === 3) {
   	if(cardArray[1] === 8 || cardArray[1] === 9 && cardArray.length === 14) {
   		return "Diner's Club";
   	} else if(cardArray[1] === 4 || cardArray[1] === 7 && cardArray.length === 15) {
   		return 'American Express';
   	}
-  } else {
-  	return 'Not a valid credit card number';
   }
+
+  // Visa
+  if(cardArray[0] === 4) {
+  	if(cardArray.length === 13 || cardArray.length === 16 || cardArray.length === 19) {
+  		return 'Visa';
+  	}
+  }
+
+  // MasterCard
+  if(cardArray.length === 16 && cardArray[0] === 5) {
+  	if(cardArray[1] === 1 || cardArray[1] === 2 || cardArray[1] === 3 || cardArray[1] === 4 || cardArray[1] === 5) {
+  		return 'MasterCard';
+  	}
+  }
+
+  return 'Not a valid credit card number';
 };
