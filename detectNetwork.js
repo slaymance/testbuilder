@@ -38,7 +38,7 @@ var detectNetwork = function(cardNumber) {
 
   // MasterCard
   if(cardArray.length === 16 && cardArray[0] === 5) {
-  	if(cardArray[1] === 1 || cardArray[1] === 2 || cardArray[1] === 3 || cardArray[1] === 4 || cardArray[1] === 5) {
+  	if(cardArray[1] >= 1 && cardArray[1] <= 5) {
   		return 'MasterCard';
   	}
   }
