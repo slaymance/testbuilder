@@ -85,7 +85,10 @@ describe('Visa', function() {
   // Chai provides an assert that acts the same as our previous assert.
   // Search the documentation to figure out how to access it. 
   //   http://chaijs.com/
-  var assert = chai.assert(correctNetwork !== true, 'incorrect network returned');
+  var assert = chai.assert
+  , correctNetwork;
+
+  assert(correctNetwork !== true, 'Visa is not returned');
  
 
   it('has a prefix of 4 and a length of 13', function() {
