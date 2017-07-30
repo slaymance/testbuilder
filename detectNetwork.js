@@ -57,8 +57,8 @@ var detectNetwork = function(cardNumber) {
 
   // Discover
   var discoverLength = cardArray.length === 16 || cardArray.length === 19;
-  var discoverPrefix = fourPrefix === 6011 
-    || threePrefix >= 644 && threePrefix <= 649 || twoPrefix === 65;
+  var discoverPrefix = twoPrefix === 65 || threePrefix >= 644 && threePrefix <=
+    649 || fourPrefix === 6011;
   if(discoverLength && discoverPrefix) {
     return 'Discover';
   }
