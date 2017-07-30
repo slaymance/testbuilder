@@ -20,57 +20,73 @@ var detectNetwork = function(cardNumber) {
   	cardArray.push(parseInt(splitArray[i]));
   }
 
-  // Diner's Club and American Express
-  if(cardArray[0] === 3) {
-  	if(cardArray[1] === 8 || cardArray[1] === 9 && cardArray.length === 14) {
-  		return 'Diner\'s Club';
-  	} else if(cardArray[1] === 4 || cardArray[1] === 7 && cardArray.length === 15) {
-  		return 'American Express';
-  	}
+  var twoPrefix = parseInt(cardArray.slice(0, 2).join(''));
+  var threePrefix = parseInt(cardArray.slice(0, 3).join(''));
+  var fourPrefix = parseInt(cardArray.slice(0, 4).join(''));
+  var sixPrefix = parseInt(cardArray.slice(0, 6).join(''));
+
+  // Diner's Club
+  var dinersLength = cardArray.length === 14;
+  var dinersPrefix = twoPrefix >= 38 && twoPrefix <= 39
+  if(dinersLength && dinersPrefix) {
+    return 'Diner\'s Club';
+  }
+
+  // American Express
+  var amexLength = cardArray.length === 15;
+  var amexPrefix = twoPrefix === 34 || twoPrefix === 37;
+  if(amexLength && amexPrefix) {
+    return 'American Express';
   }
 
   // Visa
-  if(cardArray[0] === 4) {
-  	if(cardArray.length === 13 || cardArray.length === 16 || cardArray.length === 19) {
-  		return 'Visa';
-  	}
+  var visaLength = cardArray.length === 13 || cardArray.length === 16 
+    || cardArray.length === 19;
+  var visaPrefix = cardArray[0] === 4 && fourPrefix !== 4903 && fourPrefix !== 
+    4905 && fourPrefix !== 4911 && fourPrefix !== 4936;
+  if(visaLength && visaPrefix) {
+    return 'Visa';
   }
 
-  // MasterCard
-  if(cardArray.length === 16 && cardArray[0] === 5) {
-  	if(cardArray[1] >= 1 && cardArray[1] <= 5) {
-  		return 'MasterCard';
-  	}
+  // Master Card
+  var masterLength = cardArray.length === 16;
+  var masterPrefix = twoPrefix >= 51 && twoPrefix <= 55;
+  if(masterLength && masterPrefix) {
+    return 'MasterCard'
   }
 
   // Discover
-  if(cardArray[0] === 6) {
-  	if(cardArray.length === 16 || cardArray.length === 19) {
-  		if(cardArray[1] === 0 && cardArray[2] === 1 && cardArray[3] === 1) {
-  			return 'Discover';
-  		} else if(cardArray[1] === 4) {
-  			if(cardArray[2] >= 4 && cardArray[2] <= 9) {
-  				return 'Discover';
-  			}
-  		} else if(cardArray[1] === 5) {
-  			return 'Discover';
-  		}
-  	}
+  var discoverLength = cardArray.length === 16 || cardArray.length === 19;
+  var discoverPrefix = fourPrefix === 6011 
+    || threePrefix >= 644 && threePrefix <= 649 || twoPrefix === 65;
+  if(discoverLength && discoverPrefix) {
+    return 'Discover';
   }
 
   // Maestro
-  if(cardArray.length >= 12 && cardArray.length <= 19) {
-  	if(cardArray[0] === 5 && cardArray[1] === 0) {
-  		if(cardArray[2] === 1 && cardArray[3] === 8) {
-  			return 'Maestro';
-  		} else if(cardArray[2] === 2 && cardArray[3] === 0) {
-  			return 'Maestro';
-  		} else if(cardArray[2] === 3 && cardArray[3] === 8) {
-  			return 'Maestro';
-  		}
-  	} else if(cardArray[0] === 6 && cardArray[1] === 3 && cardArray[2] === 0 && cardArray[3] === 4) {
-  		return 'Maestro';
-  	}
+  var maestroLength = cardArray.length >= 12 && cardArray.length <= 19;
+  var maestroPrefix = fourPrefix === 5018 || fourPrefix === 5020 
+    || fourPrefix === 5038 || fourPrefix === 6304
+  if(maestroLength && maestroPrefix) {
+    return 'Maestro';
+  }
+
+  // China UnionPay
+  var chinaLength = cardArray.length >= 16 && cardArray.length <= 19;
+  var chinaPrefix = threePrefix >= 624 && threePrefix <= 626 || fourPrefix >= 
+    6282 && fourPrefix <= 6288 || sixPrefix >= 622126 && sixPrefix <= 622925;
+  if(chinaLength && chinaPrefix) {
+    return 'China UnionPay';
+  }
+
+  // Switch
+  var switchLength = cardArray.length === 16 || cardArray.length === 18 
+    || cardArray.length === 19;
+  var switchPrefix = fourPrefix === 4903 || fourPrefix === 4905 || fourPrefix 
+    === 4936 || fourPrefix === 6333 || fourPrefix === 6759 || sixPrefix === 
+    564182 || sixPrefix === 633110;
+  if(switchLength && switchPrefix) {
+    return 'Switch';
   }
 
   return 'Not a valid credit card number';
