@@ -48,7 +48,7 @@ var detectNetwork = function(cardNumber) {
     return 'Visa';
   }
 
-  // Master Card
+  // MasterCard
   var masterLength = cardArray.length === 16;
   var masterPrefix = twoPrefix >= 51 && twoPrefix <= 55;
   if(masterLength && masterPrefix) {
