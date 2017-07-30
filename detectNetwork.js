@@ -83,8 +83,8 @@ var detectNetwork = function(cardNumber) {
   var switchLength = cardArray.length === 16 || cardArray.length === 18 
     || cardArray.length === 19;
   var switchPrefix = fourPrefix === 4903 || fourPrefix === 4905 || fourPrefix 
-    === 4936 || fourPrefix === 6333 || fourPrefix === 6759 || sixPrefix === 
-    564182 || sixPrefix === 633110;
+    === 4911 || fourPrefix === 4936 || fourPrefix === 6333 || fourPrefix === 6759
+    || sixPrefix === 564182 || sixPrefix === 633110;
   if(switchLength && switchPrefix) {
     return 'Switch';
   }
