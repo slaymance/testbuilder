@@ -42,6 +42,7 @@ describe('Introduction to Mocha Tests - READ ME FIRST', function() {
   });
 });
 */
+
 describe('Diner\'s Club', function() {
   // Be careful, tests can have bugs too...
 
@@ -345,5 +346,50 @@ describe('Maestro', function() {
   });
 });
 
-describe('should support China UnionPay')
-describe('should support Switch')
+describe('China UnionPay', function() {
+  var expect = chai.expect;
+
+  for (var length = 16; length <= 19; length++) {
+    for (var prefix = 624; prefix <= 626; prefix++) {
+      let cardNumber = prefix + '0'.repeat(length - 3);
+
+      it(`has a prefix of ${prefix} and a length of ${length}, card number ${cardNumber}`, function() {
+        expect(detectNetwork(cardNumber)).to.equal('China UnionPay');
+      });
+    }
+
+    for (var prefix = 6282; prefix <= 6288; prefix++) {
+      let cardNumber = prefix + '0'.repeat(length - 4);
+
+      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
+        expect(detectNetwork(cardNumber)).to.equal('China UnionPay');
+      });
+    }
+
+    for (var prefix = 622126; prefix <= 622925; prefix++) {
+      let cardNumber = prefix + '0'.repeat(length - 6);
+
+      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
+        expect(detectNetwork(cardNumber)).to.equal('China UnionPay');
+      });
+    }
+  }
+});
+
+describe('Switch', function() {
+  var expect = chai.expect;
+
+  var testLength = [16, 18, 19]
+  var testPrefix = ['4903', '4905', '4911', '4936', '564182', '633110', 
+    '6333', '6759']
+
+  testPrefix.forEach(function(prefix) {
+    testLength.forEach(function(length) {
+      let cardNumber = prefix + '0'.repeat(length - prefix.length);
+
+      it(`has a prefix of ${prefix} and a length of ${length}, card number ${cardNumber}`, function() {
+        expect(detectNetwork(cardNumber)).to.equal('Switch');
+      });
+    });
+  });
+});
