@@ -149,7 +149,7 @@ describe('Maestro', function() {
   var testLength = [];
 
   for (var addLength = 12; addLength <= 19; addLength++) {
-    testLength.push(JSON.stringify(addLength));
+    testLength.push(addLength);
   }
 
   testPrefix.forEach(function(prefix) {
@@ -183,7 +183,7 @@ describe('China UnionPay', function() {
   }
 
   for (var addLength = 16; addLength <= 19; addLength++) {
-    testLength.push(JSON.stringify(addLength));
+    testLength.push(addLength);
   }
 
   testPrefix.forEach(function(prefix) {
