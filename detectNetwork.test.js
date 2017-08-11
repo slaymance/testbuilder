@@ -42,65 +42,48 @@ describe('Introduction to Mocha Tests - READ ME FIRST', function() {
   });
 });
 */
+function chaiExpectTest(prefix, length, cardNumber, expectedOutput) {
+  var expect = chai.expect;
+  it(`has a prefix of ${prefix} and a length of ${length}`, function () {
+    expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
+  });
+}
+
+function testEachCardDetect(testPrefix, testLength, expectedOutput) {
+  testPrefix.forEach(function(prefix) {
+    testLength.forEach(function(length) {
+      let cardNumber = prefix + '0'.repeat(length - prefix.length);
+      chaiExpectTest(prefix, length, cardNumber, expectedOutput);
+    });
+  });
+}
 
 describe('Diner\'s Club', function() {
-  var expect = chai.expect;
   var expectedOutput = 'Diner\'s Club';
-
   var testPrefix = ['38', '39'];
   var testLength = [14];
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('American Express', function() {
-  var expect = chai.expect;
   var expectedOutput = 'American Express';
-
   var testPrefix = ['34', '37'];
   var testLength = [15];
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('Visa', function() {
-  var expect = chai.expect;
   var expectedOutput = 'Visa';
-
   var testPrefix = ['4'];
   var testLength = [13, 16, 19];
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('MasterCard', function() {
-  var expect = chai.expect;
   var expectedOutput = 'MasterCard';
-
   var testPrefix = [];
   var testLength = [16];
 
@@ -108,21 +91,11 @@ describe('MasterCard', function() {
     testPrefix.push(JSON.stringify(addPrefix));
   }
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('Discover', function() {
-  var expect = chai.expect;
   var expectedOutput = 'Discover';
-
   var testPrefix = ['65', '6011'];
   var testLength = [16, 19];
 
@@ -130,21 +103,11 @@ describe('Discover', function() {
     testPrefix.push(JSON.stringify(addPrefix));
   }
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('Maestro', function() {
-  var expect = chai.expect;
   var expectedOutput = 'Maestro';
-
   var testPrefix = ['5018', '5020', '5038', '6304'];
   var testLength = [];
 
@@ -152,21 +115,11 @@ describe('Maestro', function() {
     testLength.push(addLength);
   }
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('China UnionPay', function() {
-  var expect = chai.expect;
   var expectedOutput = 'China UnionPay';
-
   var testPrefix = [];
   var testLength = [];
 
@@ -186,32 +139,14 @@ describe('China UnionPay', function() {
     testLength.push(addLength);
   }
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
 
 describe('Switch', function() {
-  var expect = chai.expect;
   var expectedOutput = 'Switch';
-
   var testPrefix = ['4903', '4905', '4911', '4936', '564182', '633110', '6333',
     '6759'];
   var testLength = [16, 18, 19];
 
-  testPrefix.forEach(function(prefix) {
-    testLength.forEach(function(length) {
-      let cardNumber = prefix + '0'.repeat(length - prefix.length);
-
-      it(`has a prefix of ${prefix} and a length of ${length}`, function() {
-        expect(detectNetwork(cardNumber)).to.equal(expectedOutput);
-      });
-    });
-  });
+  testEachCardDetect(testPrefix, testLength, expectedOutput);
 });
