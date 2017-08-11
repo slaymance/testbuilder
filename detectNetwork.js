@@ -14,105 +14,100 @@ var detectNetwork = function(cardNumber) {
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 
-  var splitArray = cardNumber.split('');
-  var cardArray =[];
-  for(var i = 0; i < splitArray.length; i++) {
-  	cardArray.push(parseInt(splitArray[i]));
+  var cardArray = cardNumber.split('').map(Number)
+  if (cardArray.includes(NaN)) {
+    alert('Please enter a valid credit card number')
   }
 
-  var twoPrefix = parseInt(cardArray.slice(0, 2).join(''));
-  var threePrefix = parseInt(cardArray.slice(0, 3).join(''));
-  var fourPrefix = parseInt(cardArray.slice(0, 4).join(''));
-  var sixPrefix = parseInt(cardArray.slice(0, 6).join(''));
+  var slicedPrefixes = [cardArray.slice(0, 1).join(''),
+                        cardArray.slice(0, 2).join(''),
+                        cardArray.slice(0, 3).join(''),
+                        cardArray.slice(0, 4).join(''),
+                        cardArray.slice(0, 6).join('')];
 
-  // Diner's Club
-  var dinersLength = cardArray.length === 14;
-  var dinersPrefix = twoPrefix >= 38 && twoPrefix <= 39;
-
-  if(dinersLength && dinersPrefix) {
-    return 'Diner\'s Club';
+  function checkCardType(cardPrefixes, cardLengths) {
+    for (var prefix in cardPrefixes) {
+      if (slicedPrefixes.includes(cardPrefixes[prefix]) && cardLengths.includes(cardArray.length)) {
+        return true;
+      }
+    }
   }
 
-  // American Express
-  var amexLength = cardArray.length === 15;
-  var amexPrefix = twoPrefix === 34 || twoPrefix === 37;
-
-  if(amexLength && amexPrefix) {
-    return 'American Express';
+  var dinersOutput = 'Diner\'s Club';
+  var dinersPrefixes = ['38', '39'];
+  var dinersLengths = [14];
+  if (checkCardType(dinersPrefixes, dinersLengths)) {
+    return dinersOutput;
   }
 
-  // Visa
-  var visaLength = cardArray.length === 13 || 
-    cardArray.length === 16 || 
-    cardArray.length === 19;
-  var visaPrefix = cardArray[0] === 4 && 
-    fourPrefix !== 4903 && 
-    fourPrefix !== 4905 && 
-    fourPrefix !== 4911 && 
-    fourPrefix !== 4936;
-
-  if(visaLength && visaPrefix) {
-    return 'Visa';
+  var amexOutput = 'American Express';
+  var amexPrefixes = ['34', '37'];
+  var amexLengths = [15];
+  if (checkCardType(amexPrefixes, amexLengths)) {
+    return amexOutput;
   }
 
-  // MasterCard
-  var masterLength = cardArray.length === 16;
-  var masterPrefix = twoPrefix >= 51 && twoPrefix <= 55;
-
-  if(masterLength && masterPrefix) {
-    return 'MasterCard'
+  var switchOutput = 'Switch';
+  var switchPrefixes = ['4903', '4905', '4911', '4936', '6333', '6759', '564182', '633110'];
+  var switchLengths = [16, 18, 19];
+  if (checkCardType(switchPrefixes, switchLengths)) {
+    return switchOutput;
   }
 
-  // Discover
-  var discoverLength = cardArray.length === 16 || cardArray.length === 19;
-  var discoverPrefix = twoPrefix === 65 || 
-    threePrefix >= 644 && 
-    threePrefix <= 649 || 
-    fourPrefix === 6011;
-
-  if(discoverLength && discoverPrefix) {
-    return 'Discover';
+  var visaOutput = 'Visa';
+  var visaPrefixes = ['4'];
+  var visaLengths = [13, 16, 19];
+  if (checkCardType(visaPrefixes, visaLengths)) {
+    return visaOutput;
   }
 
-  // Maestro
-  var maestroLength = cardArray.length >= 12 && cardArray.length <= 19;
-  var maestroPrefix = fourPrefix === 5018 || 
-    fourPrefix === 5020 || 
-    fourPrefix === 5038 || 
-    fourPrefix === 6304;
-
-  if(maestroLength && maestroPrefix) {
-    return 'Maestro';
+  var masterOutput = 'MasterCard';
+  var masterPrefixes = [];
+  var masterLengths = [16];
+  for (var prefix = 51; prefix <= 55; prefix++) {
+    masterPrefixes.push(JSON.stringify(prefix));
+  }
+  if (checkCardType(masterPrefixes, masterLengths)) {
+    return masterOutput;
   }
 
-  // China UnionPay
-  var chinaLength = cardArray.length >= 16 && cardArray.length <= 19;
-  var chinaPrefix = threePrefix >= 624 && 
-    threePrefix <= 626 || 
-    fourPrefix >= 6282 && 
-    fourPrefix <= 6288 || 
-    sixPrefix >= 622126 && 
-    sixPrefix <= 622925;
-
-  if(chinaLength && chinaPrefix) {
-    return 'China UnionPay';
+  var discoverOutput = 'Discover';
+  var discoverPrefixes = ['65', '6011'];
+  var discoverLengths = [16, 19];
+  for (var prefix = 644; prefix <= 649; prefix++) {
+    discoverPrefixes.push(JSON.stringify(prefix));
+  }
+  if (checkCardType(discoverPrefixes, discoverLengths)) {
+    return discoverOutput;
   }
 
-  // Switch
-  var switchLength = cardArray.length === 16 || 
-    cardArray.length === 18 || 
-    cardArray.length === 19;
-  var switchPrefix = fourPrefix === 4903 || 
-    fourPrefix === 4905 || 
-    fourPrefix === 4911 || 
-    fourPrefix === 4936 || 
-    fourPrefix === 6333 || 
-    fourPrefix === 6759 || 
-    sixPrefix === 564182 || 
-    sixPrefix === 633110;
-    
-  if(switchLength && switchPrefix) {
-    return 'Switch';
+  var maestroOutput = 'Maestro';
+  var maestroPrefixes = ['5018', '5020', '5038', '6304'];
+  var maestroLengths = [];
+  for (var length = 12; length <= 19; length++) {
+    maestroLengths.push(length);
+  }
+  if (checkCardType(maestroPrefixes, maestroLengths)) {
+    return maestroOutput;
+  }
+
+  var chinaOutput = 'China UnionPay';
+  var chinaPrefixes = [];
+  var chinaLengths = [];
+  for (var prefix = 624; prefix <= 626; prefix++) {
+    chinaPrefixes.push(JSON.stringify(prefix));
+  }
+  for (var prefix = 6282; prefix <= 6288; prefix++) {
+    chinaPrefixes.push(JSON.stringify(prefix));
+  }
+  for (var prefix = 622126; prefix <= 622925; prefix++) {
+    chinaPrefixes.push(JSON.stringify(prefix));
+  }
+  for (var length = 16; length <= 19; length++) {
+    chinaLengths.push(length);
+  }
+  if (checkCardType(chinaPrefixes, chinaLengths)) {
+    return chinaOutput;
   }
 
   return 'Not a valid credit card number';
