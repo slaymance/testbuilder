@@ -83,11 +83,16 @@ function detectNetwork(cardNumber) {
                         cardArray.slice(0, 2).join(''),
                         cardArray.slice(0, 3).join(''),
                         cardArray.slice(0, 4).join(''),
+                        cardArray.slice(0, 5).join(''),
                         cardArray.slice(0, 6).join('')];
+
+function checkPrefixMatch(prefix) {
+  return prefix === slicedPrefixes[prefix.length - 1];
+}
 
   function checkCardType(cardPrefixes, cardLengths) {
     for (var prefix in cardPrefixes) {
-      if (slicedPrefixes.includes(cardPrefixes[prefix]) && cardLengths.includes(cardArray.length)) {
+      if (checkPrefixMatch(cardPrefixes[prefix]) && cardLengths.includes(cardArray.length)) {
         return true;
       }
     }
