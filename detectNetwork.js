@@ -86,9 +86,9 @@ function detectNetwork(cardNumber) {
                         cardArray.slice(0, 5).join(''),
                         cardArray.slice(0, 6).join('')];
 
-function checkPrefixMatch(prefix) {
-  return prefix === slicedPrefixes[prefix.length - 1];
-}
+  function checkPrefixMatch(prefix) {
+    return prefix === slicedPrefixes[prefix.length - 1];
+  }
 
   function checkCardType(cardPrefixes, cardLengths) {
     for (var prefix in cardPrefixes) {
